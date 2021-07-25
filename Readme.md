@@ -1,7 +1,7 @@
 # Личный проект «Readme»
 
-* Студент: [Андрей Гладков](https://up.htmlacademy.ru/php/13/user/51061).
-* Наставник: `Неизвестно`.
+- Студент: [Андрей Гладков](https://up.htmlacademy.ru/php/13/user/51061).
+- Наставник: [Михаил Куклин](https://htmlacademy.ru/profile/id1053261).
 
 ---
 
