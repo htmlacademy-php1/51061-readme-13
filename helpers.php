@@ -198,7 +198,7 @@ function embed_youtube_video($youtube_url)
  * @param string $youtube_url Ссылка на youtube видео
  * @return string
  */
-function embed_youtube_cover($youtube_url)
+function embed_youtube_cover($youtube_url="")
 {
     $res = "";
     $id = extract_youtube_id($youtube_url);
