@@ -1,5 +1,5 @@
 <?php
-require('helpers.php');
+require_once('helpers.php');
 $is_auth = rand(0, 1);
 
 $user_name = 'Aндрей'; // укажите здесь ваше имя
@@ -242,79 +242,43 @@ $posts=[
             </div>
         </div>
         <div class="popular__posts">
-        <?php
-        foreach ($posts as $post) {
-            $content =$post['content'];
-            $title =$post['title'];
-            ?>
-            <article class="popular__post post <?= $post['type']?>">
+        <?php foreach ($posts as $post): ?>
+        <?php $content =$post['content']; ?>
+        <?php $title =$post['title']; ?>
+        <?php $type =$post['type']; ?>
+            <article class="popular__post post <?=$type ?>">
                 <header class="post__header">
                     <h2><?=  $title  ?></h2>
                 </header>
                 <div class="post__main">
-                <?php
-                 switch ($post['type']) {
-                    case "post-link":?>
-                        <!--содержимое для поста-ссылки-->
-                        <div class="post-link__wrapper">
-                            <a class="post-link__external" href="http://" title="Перейти по ссылке">
-                                <div class="post-link__info-wrapper">
-                                    <div class="post-link__icon-wrapper">
-                                        <img src="https://www.google.com/s2/favicons?domain=vitadental.ru" alt="Иконка">
-                                    </div>
-                                    <div class="post-link__info">
-                                        <h3><?=  $title  ?></h3>
-                                    </div>
-                                </div>
-                                <span><?= $content ?></span>
-                            </a>
-                        </div>
-                        <?php
+                <?php switch ($type) {
+                    case "post-link":
+                        print(include_template('post/link.php',[
+                            'title'=> $title,
+                            'content'=> $content
+                        ]));
                         break;
                     case "post-text":
-                        ?>
-                        <!--содержимое для поста-текста-->
-                        <p><?= $content ?></p>
-                        <?php
+                        print(include_template('post/text.php',[
+                            'content'=>$content
+                        ]));
                         break;
                     case "post-video":
-                        ?>
-                        <!--содержимое для поста-видео-->
-                            <div class="post-video__block">
-                                <div class="post-video__preview">
-                                    <?=embed_youtube_cover($content); ?>
-                                    <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
-                                </div>
-                                <a href="post-details.html" class="post-video__play-big button">
-                                    <svg class="post-video__play-big-icon" width="14" height="14">
-                                        <use xlink:href="#icon-video-play-big"></use>
-                                    </svg>
-                                    <span class="visually-hidden">Запустить проигрыватель</span>
-                                </a>
-                            </div>
-                    <?php
+                        print(include_template('post/video.php',[
+                            'content'=>$content
+                        ]));
                         break;
                     case "post-photo":
-                        ?>
-                        <!--содержимое для поста-фото-->
-                        <div class="post-photo__image-wrapper">
-                            <img src="img/<?= $content ?>" alt="Фото от пользователя" width="360" height="240">
-                        </div>
-                    <?php
+                        print(include_template('post/photo.php',[
+                            'content'=>$content
+                        ]));
                         break;
                     case "post-quote":
-                        ?>
-                        <!--содержимое для поста-цитаты-->
-                        <blockquote>
-                            <p>
-                                <?= $content ?>
-                            </p>
-                            <cite>Неизвестный Автор</cite>
-                        </blockquote>
-                        <?php
+                        print(include_template('post/quote.php',[
+                            'content'=>$content
+                        ]));
                         break;
                 }?>
-
                 </div>
                 <footer class="post__footer">
                     <div class="post__author">
@@ -352,7 +316,7 @@ $posts=[
                     </div>
                 </footer>
             </article>
-        <?php  };?>
+        <?php  endforeach;?>
         </div>
     </div>
 </section>
