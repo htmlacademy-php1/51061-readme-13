@@ -1,5 +1,3 @@
-<?php
-require('helpers.php'); ?>
 <!--содержимое для поста-видео-->
 <div class="post-video__block">
     <div class="post-video__preview">
