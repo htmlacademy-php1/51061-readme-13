@@ -1,8 +1,9 @@
-<?php require('helpers.php'); ?>
+<?php
+require('helpers.php'); ?>
 <!--содержимое для поста-видео-->
 <div class="post-video__block">
     <div class="post-video__preview">
-        <?=embed_youtube_cover($content); ?>
+        <?= embed_youtube_cover($content); ?>
         <img src="img/coast-medium.jpg" alt="Превью к видео" width="360" height="188">
     </div>
     <a href="post-details.html" class="post-video__play-big button">
