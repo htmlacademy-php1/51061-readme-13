@@ -348,6 +348,10 @@ $posts = [
                 $title = $post['title']; ?>
                 <?php
                 $type = $post['type']; ?>
+                <?php
+                $avatar = $post['avatar']; ?>
+                <?php
+                $user_name = $post['user-name']; ?>
                 <article class="popular__post post <?= $type ?>">
                     <header class="post__header">
                         <h2><?= $title ?></h2>
@@ -388,11 +392,11 @@ $posts = [
                             <a class="post__author-link" href="#" title="Автор">
                                 <div class="post__avatar-wrapper">
                                     <!--укажите путь к файлу аватара-->
-                                    <img class="post__author-avatar" src="img/<?= $post['avatar'] ?>"
+                                    <img class="post__author-avatar" src="img/<?= $avatar ?>"
                                          alt="Аватар пользователя">
                                 </div>
                                 <div class="post__info">
-                                    <b class="post__author-name"><?= $post['user-name'] ?></b>
+                                    <b class="post__author-name"><?= $user_name ?></b>
                                     <time class="post__time" datetime="">дата</time>
                                 </div>
                             </a>
