@@ -172,8 +172,7 @@ $posts = [
         </form>
         <div class="header__nav-wrapper">
             <!-- здесь должен быть PHP код, который показывает следующий тег по условию -->
-            <?php
-            if ($is_auth) : ?>
+            <?php if ($is_auth) : ?>
                 <nav class="header__nav">
                     <ul class="header__my-nav">
                         <li class="header__my-page header__my-page--popular">
@@ -244,8 +243,7 @@ $posts = [
                         </li>
                     </ul>
                 </nav>
-            <?php
-            endif; ?>
+            <?php endif; ?>
         </div>
     </div>
 </header>
@@ -338,41 +336,37 @@ $posts = [
             </div>
         </div>
         <div class="popular__posts">
-            <?php
-            foreach ($posts as $post): ?>
-                <?php
-                extract($post); ?>
-                <article class="popular__post post <?= $type ?>">
+            <?php foreach ($posts as $post): ?>
+                <article class="popular__post post <?= $post['type'] ?>">
                     <header class="post__header">
-                        <h2><?= $title ?></h2>
+                        <h2><?= $post['title'] ?></h2>
                     </header>
                     <div class="post__main">
-                        <?php
-                        switch ($type) {
+                        <?php switch ($post['type']) {
                             case "post-link":
                                 print(include_template('post/link.php', [
-                                    'title' => $title,
-                                    'content' => $content
+                                    'title' => $post['title'],
+                                    'content' => $post['content']
                                 ]));
                                 break;
                             case "post-text":
                                 print(include_template('post/text.php', [
-                                    'content' => $content
+                                    'content' => $post['content']
                                 ]));
                                 break;
                             case "post-video":
                                 print(include_template('post/video.php', [
-                                    'content' => $content
+                                    'content' => $post['content']
                                 ]));
                                 break;
                             case "post-photo":
                                 print(include_template('post/photo.php', [
-                                    'content' => $content
+                                    'content' => $post['content']
                                 ]));
                                 break;
                             case "post-quote":
                                 print(include_template('post/quote.php', [
-                                    'content' => $content
+                                    'content' => $post['content']
                                 ]));
                                 break;
                         } ?>
@@ -382,11 +376,11 @@ $posts = [
                             <a class="post__author-link" href="#" title="Автор">
                                 <div class="post__avatar-wrapper">
                                     <!--укажите путь к файлу аватара-->
-                                    <img class="post__author-avatar" src="img/<?= $avatar ?>"
+                                    <img class="post__author-avatar" src="img/<?= $post['avatar'] ?>"
                                          alt="Аватар пользователя">
                                 </div>
                                 <div class="post__info">
-                                    <b class="post__author-name"><?= $user_name ?></b>
+                                    <b class="post__author-name"><?= $post['user_name'] ?></b>
                                     <time class="post__time" datetime="">дата</time>
                                 </div>
                             </a>
@@ -416,8 +410,7 @@ $posts = [
                         </div>
                     </footer>
                 </article>
-            <?php
-            endforeach; ?>
+            <?php endforeach; ?>
         </div>
     </div>
 </section>
