@@ -269,7 +269,8 @@ function generate_random_date($index)
 /**
  * текст, если его длина меньше заданного числа(по умолчанию 300) символов. В противном случае это должен быть урезанный текст с прибавленной к нему ссылкой.
  * @param string $text строка
- * @return int $length допустимая длинна
+ * @param int $length допустимая длинна
+ * @return bool
  */
 function is_need_trunc(string $text,int $length=300):bool {
     return strlen($text)>$length;
@@ -278,7 +279,8 @@ function is_need_trunc(string $text,int $length=300):bool {
 /**
  * обрезает текст более заданного числа(по умолчанию 300) символов. дополняется  прибавлением к нему "...".
  * @param string $text строка
- * @return int $length допустимая длинна
+ * @param int $length допустимая длинна
+ * @return string обрезанный текст с ... | исходный
  */
 function trunc_text(string $text,int $length=300):string
 {
@@ -308,7 +310,9 @@ function trunc_text(string $text,int $length=300):string
 /**
  * если текст больше length обрезает его и прибавляет ссылку Читать далее, выводит текст в p
  * @param string $text строка
- * @return int $length допустимая длинна
+ * @param int $length допустимая длинна
+ * @param string $full_content_link ссылка на полную версию поста
+ * @return string html
  */
 function short_content(string $text,int $length=300,string $full_content_link="#") :string
 {
