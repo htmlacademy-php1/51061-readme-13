@@ -273,7 +273,7 @@ function generate_random_date($index)
  * @return bool
  */
 function is_need_trunc(string $text,int $length=300):bool {
-    return strlen($text)>$length;
+    return mb_strlen($text) > $length;
 }
 
 /**
@@ -289,15 +289,14 @@ function trunc_text(string $text,int $length=300):string
     $last_word_index = false;
     $symbol_count=0;
 
-    foreach( $words_array as $i=>$word ){
-
-        if($words_array[$i+1]) {
+    foreach( $words_array as $i=>$word ) {
+        if ($words_array[$i + 1]) {
             // если не последнее слово увеличиваем кол-во на 1( пробел между строками)
             $symbol_count++;
         }
-        $symbol_count = $symbol_count + strlen($word);
-        if ($symbol_count >300) {
-            $last_word_index = $i-1;
+        $symbol_count = $symbol_count + mb_strlen($word);
+        if ($symbol_count > $length) {
+            $last_word_index = $i - 1;
             break;
         }
     }
