@@ -207,7 +207,9 @@
     </div>
 </header>
 
-<?php print($content) ?>
+<section class="page__main page__main--popular">
+    <?php print($content) ?>
+</section>
 
 <footer class="footer">
     <div class="footer__wrapper">

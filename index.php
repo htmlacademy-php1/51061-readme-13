@@ -3,6 +3,7 @@
 require_once('helpers.php');
 
 $is_auth = rand(0, 1);
+$title = 'readme: популярное';
 
 $posts = [
     [
@@ -50,7 +51,7 @@ $posts = [
 ];
 
 $content = include_template('main.php', ["posts" => $posts]);
-$page = include_template("layout.php", ['content' => $content, "title" => 'readme: популярное', 'is_auth' => $is_auth]);
+$page = include_template("layout.php", compact("content", "title", "is_auth"));
 
 print($page);
 ?>
