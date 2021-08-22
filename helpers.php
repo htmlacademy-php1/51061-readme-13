@@ -1,5 +1,15 @@
 <?php
 
+$current_time = date_create();
+$current_timestamp = $current_time->getTimestamp();
+$time_points = [
+    "minute" => 60,
+    "hour" => 3600,
+    "day" => 86400,
+    "week" => 604800
+];
+
+
 /**
  * Проверяет переданную дату на соответствие формату 'ГГГГ-ММ-ДД'
  *
@@ -263,6 +273,68 @@ function generate_random_date($index)
     $dt = date('Y-m-d H:i:s', $ts);
 
     return $dt;
+}
+
+/**
+ * Генерирует строку для прошедшего времени с момента(переданного параметром) до настоящего момента
+ * в нужном сколнении в адекватном временном интервале (минут,часов, дней и т.д.)
+ * @param string $date
+ * @param DateTime|null $current_time
+ * @return string|false
+ */
+function get_passed_time_title(string $date = '', DateTime $current_time = null)
+{
+    if (!$date) {
+        return false;
+    }
+    if (!$current_time) {
+        $current_time = date_create();
+    }
+
+    $post_date = strtotime($date);
+    $current_timestamp = $current_time->getTimestamp();
+
+    global $time_points;
+
+    $diff = $current_timestamp - $post_date;
+
+    if ($diff < $time_points["hour"]) {
+        //если до текущего времени прошло меньше 60 минут, то формат будет вида «% минут назад»;
+        $past_time = floor($diff / $time_points["minute"]);
+        $plural_form = get_noun_plural_form($past_time, "минута", "минуты", "минут");
+    }
+
+    if ($diff > $time_points['hour']
+        //если до текущего времени прошло больше 60 минут, но меньше 24 часов, то формат будет вида «% часов назад»;
+        && $diff < $time_points['day']) {
+        $past_time = floor($diff / $time_points['hour']);
+        $plural_form = get_noun_plural_form($past_time, "час", "часы", "часов");
+    }
+
+    if ($diff > $time_points['day']
+        && $diff < $time_points['week']) {
+        //если до текущего времени прошло больше 24 часов, но меньше 7 дней, то формат будет вида «% дней назад»;
+        $past_time = floor($diff / $time_points['day']);
+        $plural_form = get_noun_plural_form($past_time, "день", "дня", "дней");
+    }
+
+    if ($diff > $time_points['week']
+        && $diff < ($time_points['week'] * 5)) {
+        //если до текущего времени прошло больше 7 дней, но меньше 5 недель, то формат будет вида «% недель назад»;
+        $past_time = floor($diff / $time_points['week']);
+        $plural_form = get_noun_plural_form($past_time, "неделя", "недели", "недель");
+    }
+
+    if ($diff > ($time_points['week'] * 5)) {
+        //если до текущего времени прошло больше 5 недель, то формат будет вида «% месяцев назад».
+        $past_time = date_diff($current_time, date_create($date))->format('%m');
+        $plural_form = get_noun_plural_form($past_time, "месяц", "месяца", "месяцев");
+    }
+
+    if ($past_time && $plural_form) {
+        return $past_time . " " . $plural_form . " назад";
+    }
+    return false;
 }
 
 
