@@ -3,7 +3,7 @@
 require_once('helpers.php');
 
 date_default_timezone_set('Europe/Moscow');
-$current_time = date_create();
+$current_time = date_create()->getTimestamp();
 
 $is_auth = rand(0, 1);
 $title = 'readme: популярное';

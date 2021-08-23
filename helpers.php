@@ -279,20 +279,19 @@ function generate_random_date($index)
  * Генерирует строку для прошедшего времени с момента(переданного параметром) до настоящего момента
  * в нужном сколнении в адекватном временном интервале (минут,часов, дней и т.д.)
  * @param string $date
- * @param DateTime|null $current_time
+ * @param int|null $current_time
  * @return string|false
  */
-function get_passed_time_title(string $date = '', DateTime $current_time = null)
+function get_passed_time_title(string $date = '', int $current_timestamp = null)
 {
     if (!$date) {
         return false;
     }
-    if (!$current_time) {
-        $current_time = date_create();
+    if (!$current_timestamp) {
+        $current_timestamp = date_create()->getTimestamp();
     }
 
     $post_date = strtotime($date);
-    $current_timestamp = $current_time->getTimestamp();
 
     global $time_points;
 
@@ -327,7 +326,8 @@ function get_passed_time_title(string $date = '', DateTime $current_time = null)
 
     if ($diff > ($time_points['week'] * 5)) {
         //если до текущего времени прошло больше 5 недель, то формат будет вида «% месяцев назад».
-        $past_time = date_diff($current_time, date_create($date))->format('%m');
+        $current_date = (new DateTime())->setTimestamp($current_timestamp);
+        $past_time = date_diff($current_date, date_create($date))->format('%m');
         $plural_form = get_noun_plural_form($past_time, "месяц", "месяца", "месяцев");
     }
 

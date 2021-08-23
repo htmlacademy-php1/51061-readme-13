@@ -1,9 +1,7 @@
 <?php
 /**
  * @var $posts array{title:string ,id:string,content:string,type:string,user_name:string,avatar:string }
- * @var $current_timestamp int
- * @var $current_time DateTime
- * @var $time_points array{minutes:int ,hour:int ,day:int ,week:int}
+ * @var $current_time int
  */
 
 ?>
