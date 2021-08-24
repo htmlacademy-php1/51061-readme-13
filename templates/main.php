@@ -139,8 +139,10 @@
                             </div>
                             <div class="post__info">
                                 <b class="post__author-name"><?= $post['user_name'] ?></b>
-                                <time class="post__time" datetime=""><?php
-                                    $post_date_str = generate_random_date($key);
+                                <?php $post_date_str = generate_random_date($key); ?>
+                                <time class="post__time" title='<?= date_create($post_date_str)->format('d.m.Y H:i') ?>'
+                                      datetime="<?= $post_date_str ?>">
+                                    <?php
                                     $passed_time_title = get_passed_time_title(
                                         generate_random_date($key),
                                         $current_time
