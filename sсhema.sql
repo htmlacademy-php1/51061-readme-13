@@ -14,14 +14,15 @@ email;
 пароль: хэшированный пароль пользователя;
 аватар: ссылка на загруженный аватар пользователя;
 */
-CREATE TABLE user
+CREATE TABLE users
 (
-  id           INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  email        VARCHAR(128) NOT NULL,
-  login        VARCHAR(128) NOT NULL,
-  password     CHAR(64)     NOT NULL,
-  register_day TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  avatar_url   VARCHAR(2048)
+  id         INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
+  email      VARCHAR(320) NOT NULL,
+  login      VARCHAR(128) NOT NULL,
+  password   CHAR(255)    NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  avatar_url VARCHAR(2048)
 );
 
 /**
@@ -34,15 +35,16 @@ CREATE TABLE user
 отправитель: пользователь, отправивший сообщение;
 получатель: пользователь, которому отправили сообщение.
 */
-CREATE TABLE message
+CREATE TABLE messages
 (
   id           INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  create_date  TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  created_at   TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_at    TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   content      TEXT NOT NULL,
   sender_id    INT,
   recipient_id INT,
-  FOREIGN KEY (sender_id) REFERENCES user (id),
-  FOREIGN KEY (recipient_id) REFERENCES user (id)
+  FOREIGN KEY (sender_id) REFERENCES users (id),
+  FOREIGN KEY (recipient_id) REFERENCES users (id)
 );
 /**
 Тип контента
@@ -54,12 +56,10 @@ CREATE TABLE message
 CREATE TABLE types
 (
   id         INT AUTO_INCREMENT PRIMARY KEY NOT NULL,
-  icon_class TEXT NOT NULL,
-  title      TEXT NOT NULL,
-  CONSTRAINT check_icon_class CHECK
-    (icon_class IN ('photo', 'video', 'text', 'quote', 'link')),
-  CONSTRAINT check_title CHECK
-    (title IN ('текст', 'цитата', 'картинка', 'видео', 'ссылка'))
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  icon_class VARCHAR(10) NOT NULL,
+  title      VARCHAR(10) NOT NULL
 );
 /**
 Пост
@@ -81,17 +81,18 @@ CREATE TABLE types
 CREATE TABLE posts
 (
   id              INT AUTO_INCREMENT PRIMARY KEY,
-  create_date     TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  title           TEXT NOT NULL,
+  created_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_at       TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  title           VARCHAR(255) NOT NULL,
   text            TEXT,
-  img_url         TEXT,
-  video_url       TEXT,
-  link            TEXT,
+  image_url       VARCHAR(2048),
+  video_url       VARCHAR(2048),
+  url             VARCHAR(2048),
   views           INT       DEFAULT 0,
   author_id       INT,
   content_type_id INT,
-  FOREIGN KEY (author_id) REFERENCES user (id),
-  FOREIGN KEY (content_type_id) REFERENCES types (id) # hashtag INT - мы же должы хранить тут массив пока не понял как это сделать,
+  FOREIGN KEY (author_id) REFERENCES users (id),
+  FOREIGN KEY (content_type_id) REFERENCES types (id)
 );
 /**
 Комментарий
@@ -105,12 +106,13 @@ CREATE TABLE posts
 */
 CREATE TABLE comments
 (
-  id          INT AUTO_INCREMENT PRIMARY KEY,
-  create_date TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-  content     TEXT,
-  author_id   INT,
-  post_id     INT,
-  FOREIGN KEY (author_id) REFERENCES user (id),
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  content    TEXT,
+  author_id  INT,
+  post_id    INT,
+  FOREIGN KEY (author_id) REFERENCES users (id),
   FOREIGN KEY (post_id) REFERENCES posts (id)
 );
 /**
@@ -125,7 +127,7 @@ CREATE TABLE likes
   id        INT AUTO_INCREMENT PRIMARY KEY,
   author_id INT,
   post_id   INT,
-  FOREIGN KEY (author_id) REFERENCES user (id),
+  FOREIGN KEY (author_id) REFERENCES users (id),
   FOREIGN KEY (post_id) REFERENCES posts (id)
 );
 /**
@@ -135,23 +137,32 @@ CREATE TABLE likes
 автор: пользователь, который подписался;
 подписка: пользователь, на которого подписались
 */
-CREATE TABLE subscription
+CREATE TABLE subscriptions
 (
-  id           INT AUTO_INCREMENT PRIMARY KEY,
   author_id    INT,
   subscription INT,
-  FOREIGN KEY (author_id) REFERENCES user (id),
-  FOREIGN KEY (subscription) REFERENCES user (id)
+  PRIMARY KEY (author_id, subscription),
+  FOREIGN KEY (author_id) REFERENCES users (id),
+  FOREIGN KEY (subscription) REFERENCES users (id)
 );
 /**
 Хештег
 Один из используемых хештегов на сайте. Сущность состоит только из названия хештега.
 */
-CREATE TABLE hashtag
+CREATE TABLE hashtags
 (
-  id      INT AUTO_INCREMENT PRIMARY KEY,
-  name    TEXT,
-  post_id INT,
-  FOREIGN KEY (post_id) REFERENCES posts (id)
+  id         INT AUTO_INCREMENT PRIMARY KEY,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  update_at  TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  name       VARCHAR(100)
+);
+
+CREATE TABLE post_hashtags
+(
+  post_id    INT,
+  hashtag_id INT,
+  PRIMARY KEY (post_id, hashtag_id),
+  FOREIGN KEY (post_id) REFERENCES posts (id),
+  FOREIGN KEY (hashtag_id) REFERENCES hashtags (id)
 );
 
