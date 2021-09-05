@@ -85,6 +85,7 @@ CREATE TABLE posts
   updated_at      TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   title           VARCHAR(255) NOT NULL,
   text            TEXT,
+  quote           TEXT,
   image_url       VARCHAR(2048),
   video_url       VARCHAR(2048),
   url             VARCHAR(2048),
@@ -94,6 +95,7 @@ CREATE TABLE posts
   FOREIGN KEY (author_id) REFERENCES users (id),
   FOREIGN KEY (content_type_id) REFERENCES types (id)
 );
+# DROP TABLE posts;
 /**
 Комментарий
 Текстовый комментарий, оставленный к одному из постов.

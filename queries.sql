@@ -12,16 +12,18 @@ INSERT INTO likes (author_id, post_id)
 VALUES (1, 5);
 
 #добавить существующий список постов.
-INSERT INTO posts (title, content_type_id, author_id, url, image_url, text)
-VALUES ('Тест', 1, 2, null, NULL, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.'),
-       ('Игра престолов', 2, 2, null, NULL, 'Не могу дождаться начала финального сезона своего любимого сериала!'),
-       ('Лучшие курсы', 5, 1, 'www.htmlacademy.ru', NULL, null),
-       ('Наконец, обработал фотки!', 3, 2, null, 'rock-medium.jpg', null),
-       ('Моя мечта', 3, 2, null, 'coast-medium.jpg', NULL);
+INSERT INTO posts (title, content_type_id, author_id, url, image_url, text, quote)
+VALUES ('Тест', 1, 2, null, NULL, 'Lorem ipsum dolor sit amet, consectetur adipisicing elit.', null),
+       ('Игра престолов', 2, 2, null, NULL, 'Не могу дождаться начала финального сезона своего любимого сериала!',
+        null),
+       ('Лучшие курсы', 5, 1, 'www.htmlacademy.ru', NULL, null, null),
+       ('Наконец, обработал фотки!', 3, 2, null, 'rock-medium.jpg', null, null),
+       ('Моя мечта', 3, 2, null, 'coast-medium.jpg', NULL, null),
+       ('Супер цитата', 2, 2, null, null, NULL, 'мир и любовь');
 
 #придумайте пару пользователей;
 INSERT INTO users (email, login, password, avatar_url)
-VALUES ("first@mail.ru", "Виктор", "first123", "userpic-mark.jpg"),
+VALUES ("first@mail.ru", "Виктор", "first123", 'userpic-mark.jpg'),
        ("second@mail.ru", "Лариса", "second123", 'userpic-larisa-small.jpg');
 
 #список типов контента для поста;
@@ -35,16 +37,21 @@ VALUES ("Текст", "text"),
 #получить список постов с сортировкой по популярности и вместе с именами авторов и типом контента;
 USE readme;
 SELECT u.id,
-       u.login,
-       t.id    as 'type_id',
-       t.content_type_id,
-       p.title as "post_title",
-       p.views as 'post_views',
-       p.id    as 'post_id'
+       u.login      as 'user_name',
+       t.id         as 'type_id',
+       t.title      as 'type_title',
+       t.icon_class as 'post_type',
+       p.title      as 'post_title',
+       p.url        as 'url',
+       p.image_url  as 'image_url',
+       p.text       as 'text',
+       p.video_url  as 'video_url',
+       p.views      as 'post_views',
+       p.id         as 'post_id'
 FROM posts p
        INNER JOIN users u ON p.author_id = u.id
        INNER JOIN types t ON p.content_type_id = t.id
-ORDER BY pviews DESC;
+ORDER BY p.views DESC;;
 
 #получить список постов для конкретного пользователя;
 USE readme;
@@ -62,4 +69,4 @@ WHERE c.post_id = 5;
 
 #подписаться на пользователя
 INSERT INTO subscriptions (author_id, subscription)
-VALUES (2, 5);
+VALUES (2, 1);
