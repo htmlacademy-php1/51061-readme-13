@@ -14,19 +14,19 @@ $title = 'readme: популярное';
 $sql_queries = [
     'getContentTypes' => "SELECT id,title,icon_class FROM types",
     'getPosts' => "SELECT u.id,
-       u.login as 'user_name',
-       u.avatar_url as 'avatar',
-       t.id    as 'type_id',
-       t.title as 'type_title',
-       t.icon_class as 'type',
-       p.title as 'title',
-       p.url as 'url',
-       p.image_url as 'image_url',
-       p.text as 'text',
-       p.video_url as 'video_url',
-       p.views as 'post_views',
-       p.quote as 'quote',
-       p.id    as 'post_id'
+       u.login          as 'user_login',
+       t.id             as 'type_id',
+       t.title          as 'type_title',
+       t.icon_class     as 'post_icon_class',
+       p.title          as 'post_title',
+       p.url            as 'url',
+       p.image_url      as 'image_url',
+       p.text           as 'text',
+       p.video_url      as 'video_url',
+       p.views          as 'post_views',
+       p.quote          as 'quote',
+       u.avatar_url     as 'avatar',
+       p.id             as 'post_id'
 FROM posts p
        INNER JOIN users u ON p.author_id = u.id
        INNER JOIN types t ON p.content_type_id = t.id

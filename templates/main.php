@@ -67,15 +67,15 @@
     </div>
     <div class="popular__posts">
         <?php foreach ($posts as $key => $post): ?>
-            <article class="popular__post post <?= $post['type'] ?>">
+            <article class="popular__post post <?= $post['post_title'] ?>">
                 <header class="post__header">
-                    <h2><?= $post['title'] ?></h2>
+                    <h2><?= $post['post_title'] ?></h2>
                 </header>
                 <div class="post__main">
-                    <?php switch ($post['type']) {
+                    <?php switch ($post['post_icon_class']) {
                         case "link":
                             print(include_template('post/link.php', [
-                                'title' => $post['title'],
+                                'title' => $post['post_title'],
                                 'content' => $post['url']
                             ]));
                             break;
@@ -110,7 +110,7 @@
                                      alt="Аватар пользователя">
                             </div>
                             <div class="post__info">
-                                <b class="post__author-name"><?= $post['user_name'] ?></b>
+                                <b class="post__author-name"><?= $post['user_login'] ?></b>
                                 <?php $post_date_str = generate_random_date($key); ?>
                                 <time class="post__time" title='<?= date_create($post_date_str)->format('d.m.Y H:i') ?>'
                                       datetime="<?= $post_date_str ?>">

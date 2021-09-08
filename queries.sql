@@ -49,7 +49,7 @@ SELECT u.id,
 FROM posts p
        INNER JOIN users u ON p.author_id = u.id
        INNER JOIN types t ON p.content_type_id = t.id
-ORDER BY p.views DESC;;
+ORDER BY p.views DESC;
 
 #получить список постов для конкретного пользователя;
 SELECT *
