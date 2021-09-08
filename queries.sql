@@ -7,7 +7,7 @@ VALUES ("Комментарий1", 1, 5),
        ("Комментарий2", 1, 5);
 
 #добавить лайк к посту;
-USE readme;
+
 INSERT INTO likes (author_id, post_id)
 VALUES (1, 5);
 
@@ -35,33 +35,23 @@ VALUES ("Текст", "text"),
        ("Ссылка", "link");
 
 #получить список постов с сортировкой по популярности и вместе с именами авторов и типом контента;
-USE readme;
+
 SELECT u.id,
-       u.login      as 'user_name',
-       t.id         as 'type_id',
-       t.title      as 'type_title',
-       t.icon_class as 'post_type',
-       p.title      as 'post_title',
-       p.url        as 'url',
-       p.image_url  as 'image_url',
-       p.text       as 'text',
-       p.video_url  as 'video_url',
-       p.views      as 'post_views',
-       p.id         as 'post_id'
+       u.login as 'user_login', t.id as 'type_id', t.title as 'type_title', t.icon_class as 'post_icon_class', p.title as 'post_title', p.url as 'url', p.image_url as 'image_url', p.text as 'text', p.video_url as 'video_url', p.views as 'post_views', p.id as 'post_id'
 FROM posts p
        INNER JOIN users u ON p.author_id = u.id
        INNER JOIN types t ON p.content_type_id = t.id
 ORDER BY p.views DESC;;
 
 #получить список постов для конкретного пользователя;
-USE readme;
+
 SELECT *
 FROM posts p
        INNER JOIN users u ON p.author_id = u.id
 WHERE u.id = 1;
 
 #получить список комментариев для одного поста, в комментариях должен быть логин пользователя;
-USE readme;
+
 SELECT c.content, u.login, u.id
 FROM comments c
        JOIN users u ON c.author_id = u.id
