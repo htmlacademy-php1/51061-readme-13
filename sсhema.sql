@@ -95,6 +95,7 @@ CREATE TABLE posts
   FOREIGN KEY (author_id) REFERENCES users (id),
   FOREIGN KEY (content_type_id) REFERENCES types (id)
 );
+# DROP TABLE posts;
 /**
 Комментарий
 Текстовый комментарий, оставленный к одному из постов.
